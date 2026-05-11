@@ -414,5 +414,39 @@
   </footer>
 
   <script src="js/main.js"></script>
+
+  <!-- ─── PASSWORD GATE ─────────────────────────────────────────────────── -->
+  <div id="pw-gate">
+    <div class="pw-box">
+      <img src="assets/logo-icon.png" alt="Veru365" class="pw-logo" />
+      <h2>Veru365</h2>
+      <p>Enter password to continue</p>
+      <form id="pw-form">
+        <input type="password" id="pw-input" placeholder="Password" autocomplete="off" />
+        <button type="submit">Enter →</button>
+      </form>
+      <p id="pw-error" class="pw-error hidden">Incorrect password</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const gate = document.getElementById('pw-gate');
+      if (sessionStorage.getItem('v365_auth') === '1') { gate.remove(); return; }
+      document.body.style.overflow = 'hidden';
+      document.getElementById('pw-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (document.getElementById('pw-input').value === 'insomniac2026') {
+          sessionStorage.setItem('v365_auth', '1');
+          gate.style.opacity = '0';
+          setTimeout(() => { gate.remove(); document.body.style.overflow = ''; }, 300);
+        } else {
+          document.getElementById('pw-error').classList.remove('hidden');
+          document.getElementById('pw-input').value = '';
+          document.getElementById('pw-input').focus();
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
