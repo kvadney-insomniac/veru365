@@ -511,6 +511,16 @@ section:nth-of-type(even) { background: var(--light); }
 .form-success h3 { color: var(--navy); margin-bottom: 0.5rem; }
 .form-success p  { color: var(--muted); }
 
+.career-success {
+  padding: 1rem 1.5rem;
+  color: var(--navy);
+  font-weight: 600;
+  background: #f0f7f0;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+.career-success.hidden { display: none; }
+
 /* ─── TEAM ───────────────────────────────────────────────────────────────── */
 .team-grid {
   display: grid;

@@ -21,8 +21,36 @@ navLinks.querySelectorAll('a').forEach(link => {
   });
 });
 
-/* ─── WAITLIST FORM — mailto, native submit ──────────────────────────────── */
-// Forms use mailto: — native browser submit opens mail client, no JS needed
+/* ─── WAITLIST FORM — Formspree AJAX ────────────────────────────────────── */
+const waitlistForm = document.getElementById('waitlist-form');
+const formSuccess  = document.getElementById('form-success');
+
+waitlistForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = waitlistForm.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  try {
+    const res = await fetch(waitlistForm.action, {
+      method: 'POST',
+      body: new FormData(waitlistForm),
+      headers: { Accept: 'application/json' }
+    });
+    if (res.ok) {
+      waitlistForm.classList.add('hidden');
+      formSuccess.classList.remove('hidden');
+    } else {
+      btn.disabled = false;
+      btn.textContent = 'Submit Request →';
+      alert('Something went wrong. Please try again or email hello@veru365.com.');
+    }
+  } catch {
+    btn.disabled = false;
+    btn.textContent = 'Submit Request →';
+    alert('Something went wrong. Please try again or email hello@veru365.com.');
+  }
+});
 
 /* ─── CAREERS: toggle apply forms ───────────────────────────────────────── */
 document.querySelectorAll('.btn-apply').forEach(btn => {
@@ -34,22 +62,50 @@ document.querySelectorAll('.btn-apply').forEach(btn => {
 
     // Close all others first
     document.querySelectorAll('.career-form-wrap').forEach(w => w.classList.add('hidden'));
-    document.querySelectorAll('.btn-apply').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.btn-apply').forEach(b => {
+      b.classList.remove('active');
+      b.textContent = 'Apply';
+    });
 
     if (!isOpen) {
       formWrap.classList.remove('hidden');
       btn.classList.add('active');
       btn.textContent = 'Close';
-      // Scroll into view
       setTimeout(() => formWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
-    } else {
-      btn.textContent = 'Apply';
     }
   });
 });
 
-/* ─── CAREER FORMS — mailto, native submit ───────────────────────────────── */
-// Forms use mailto: — native browser submit opens mail client, no JS needed
+/* ─── CAREER FORMS — Formspree AJAX ─────────────────────────────────────── */
+document.querySelectorAll('.career-form').forEach(form => {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn     = form.querySelector('button[type="submit"]');
+    const success = form.nextElementSibling;
+    btn.disabled  = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' }
+      });
+      if (res.ok) {
+        form.classList.add('hidden');
+        success.classList.remove('hidden');
+      } else {
+        btn.disabled = false;
+        btn.textContent = 'Submit Application →';
+        alert('Something went wrong. Please email careers@veru365.com.');
+      }
+    } catch {
+      btn.disabled = false;
+      btn.textContent = 'Submit Application →';
+      alert('Something went wrong. Please email careers@veru365.com.');
+    }
+  });
+});
 
 /* ─── SUBTLE FADE-IN on scroll ───────────────────────────────────────────── */
 const observer = new IntersectionObserver((entries) => {

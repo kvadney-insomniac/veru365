@@ -1,0 +1,16 @@
+{
+  "forms": {
+    "waitlist": {
+      "name": "Veru365 Pilot Request"
+    },
+    "fde-application": {
+      "name": "FDE Application"
+    },
+    "se-application": {
+      "name": "SE Application"
+    },
+    "dbs-application": {
+      "name": "DBS Application"
+    }
+  }
+}
