@@ -3,11 +3,11 @@
   const canvas = document.getElementById('web');
   const ctx    = canvas.getContext('2d');
 
-  const PARTICLE_COUNT = 150;
-  const MAX_DIST       = 200;   // line draw threshold
-  const MOUSE_RADIUS   = 240;   // mouse influence radius
-  const MOUSE_STRENGTH = 0.016; // how hard mouse pulls
-  const BASE_SPEED     = 0.4;
+  const PARTICLE_COUNT = 55;
+  const MAX_DIST       = 160;   // line draw threshold
+  const MOUSE_RADIUS   = 200;   // mouse influence radius
+  const MOUSE_STRENGTH = 0.012; // how hard mouse pulls
+  const BASE_SPEED     = 0.3;
 
   // Brand colors
   const NODE_COLOR  = 'rgba(27,43,94,';   // navy
@@ -162,7 +162,7 @@
           nearMouse =
             dist2(particles[i], mouse) < MOUSE_RADIUS * MOUSE_RADIUS ||
             dist2(particles[j], mouse) < MOUSE_RADIUS * MOUSE_RADIUS;
-          alpha     = nearMouse ? t * 0.85 : t * 0.55;
+          alpha     = nearMouse ? t * 0.5 : t * 0.12;
           lineColor = nearMouse ? LINE_GOLD : LINE_NAVY;
         }
 
@@ -185,8 +185,8 @@
         ctx.beginPath();
         ctx.moveTo(particles[i].x, particles[i].y);
         ctx.lineTo(mouse.x, mouse.y);
-        ctx.strokeStyle = LINE_GOLD + (t * 0.65) + ')';
-        ctx.lineWidth   = 1.1;
+        ctx.strokeStyle = LINE_GOLD + (t * 0.4) + ')';
+        ctx.lineWidth   = 0.8;
         ctx.stroke();
       }
       // Mouse node dot
@@ -198,7 +198,7 @@
 
     /* draw nodes */
     for (const p of particles) {
-      let alpha = 0.7;
+      let alpha = 0.35;
       if (p.ttl !== undefined) alpha = 0.8 * (1 - p.age / p.ttl);
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
