@@ -3,11 +3,11 @@
   const canvas = document.getElementById('web');
   const ctx    = canvas.getContext('2d');
 
-  const PARTICLE_COUNT = 90;
-  const MAX_DIST       = 160;   // line draw threshold
-  const MOUSE_RADIUS   = 200;   // mouse influence radius
-  const MOUSE_STRENGTH = 0.012; // how hard mouse pulls
-  const BASE_SPEED     = 0.45;
+  const PARTICLE_COUNT = 150;
+  const MAX_DIST       = 200;   // line draw threshold
+  const MOUSE_RADIUS   = 240;   // mouse influence radius
+  const MOUSE_STRENGTH = 0.016; // how hard mouse pulls
+  const BASE_SPEED     = 0.4;
 
   // Brand colors
   const NODE_COLOR  = 'rgba(27,43,94,';   // navy
@@ -20,9 +20,9 @@
 
   /* ── resize ── */
   function resize() {
-    dpr    = window.devicePixelRatio || 1;
-    W      = window.innerWidth;
-    H      = window.innerHeight;
+    dpr = window.devicePixelRatio || 1;
+    W   = window.innerWidth  || document.documentElement.clientWidth  || document.body.clientWidth  || 1280;
+    H   = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 800;
     canvas.width  = W * dpr;
     canvas.height = H * dpr;
     canvas.style.width  = W + 'px';
@@ -151,7 +151,7 @@
         const tti  = particles[i].ttl;
         const ttj  = particles[j].ttl;
 
-        let alpha, lineColor;
+        let alpha, lineColor, nearMouse = false;
         if (tti !== undefined || ttj !== undefined) {
           // burst lines: gold
           const age  = Math.max(tti ? particles[i].age : 0, ttj ? particles[j].age : 0);
@@ -159,11 +159,10 @@
           alpha     = t * 0.8 * (1 - age / life);
           lineColor = LINE_GOLD;
         } else {
-          // Check if either particle is close to mouse → gold tint
-          const nearMouse =
+          nearMouse =
             dist2(particles[i], mouse) < MOUSE_RADIUS * MOUSE_RADIUS ||
             dist2(particles[j], mouse) < MOUSE_RADIUS * MOUSE_RADIUS;
-          alpha     = nearMouse ? t * 0.55 : t * 0.18;
+          alpha     = nearMouse ? t * 0.85 : t * 0.55;
           lineColor = nearMouse ? LINE_GOLD : LINE_NAVY;
         }
 
@@ -171,7 +170,7 @@
         ctx.moveTo(particles[i].x, particles[i].y);
         ctx.lineTo(particles[j].x, particles[j].y);
         ctx.strokeStyle = lineColor + alpha + ')';
-        ctx.lineWidth   = nearMouse ? 1.1 : 0.7;
+        ctx.lineWidth   = nearMouse ? 1.6 : 1.0;
         ctx.stroke();
       }
     }
@@ -186,20 +185,20 @@
         ctx.beginPath();
         ctx.moveTo(particles[i].x, particles[i].y);
         ctx.lineTo(mouse.x, mouse.y);
-        ctx.strokeStyle = LINE_GOLD + (t * 0.45) + ')';
-        ctx.lineWidth   = 0.8;
+        ctx.strokeStyle = LINE_GOLD + (t * 0.65) + ')';
+        ctx.lineWidth   = 1.1;
         ctx.stroke();
       }
       // Mouse node dot
       ctx.beginPath();
-      ctx.arc(mouse.x, mouse.y, 3, 0, Math.PI * 2);
-      ctx.fillStyle = LINE_GOLD + '0.7)';
+      ctx.arc(mouse.x, mouse.y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = LINE_GOLD + '0.9)';
       ctx.fill();
     }
 
     /* draw nodes */
     for (const p of particles) {
-      let alpha = 0.55;
+      let alpha = 0.7;
       if (p.ttl !== undefined) alpha = 0.8 * (1 - p.age / p.ttl);
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
@@ -212,7 +211,6 @@
 
   window.addEventListener('resize', () => {
     resize();
-    // Reposition any out-of-bounds particles
     particles.forEach(p => {
       if (p.x > W) p.x = Math.random() * W;
       if (p.y > H) p.y = Math.random() * H;
