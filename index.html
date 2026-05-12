@@ -3,57 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Veru365 — When personal financial information meets AI, Magic can Happen.</title>
-  <meta name="description" content="Veru365 builds white-label AI financial assistants for wealth managers, independent advisories, and financial firms." />
+  <title>Veru365™</title>
   <link rel="icon" href="assets/logo-icon.png" type="image/png" />
-  <link rel="stylesheet" href="css/style.css?v=5" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      background: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .logo {
+      width: min(50vw, 50vh);
+      max-width: 680px;
+      min-width: 260px;
+      object-fit: contain;
+      display: block;
+    }
+    footer {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 0; right: 0;
+      text-align: center;
+      font-size: 0.78rem;
+      color: #9aa0b8;
+      letter-spacing: 0.03em;
+    }
+  </style>
 </head>
 <body>
-
-  <canvas id="web"></canvas>
-
-  <div id="hero">
-    <div class="hero-logo-wrap animate-pulse-glow-gold">
-      <img src="assets/logo-icon.png" alt="Veru365" class="hero-logo" />
-    </div>
-    <h1 class="hero-wordmark">VERU<span class="divider">|</span>365</h1>
-    <p class="hero-tagline">When personal financial information meets AI,<br><em>Magic can Happen.</em></p>
-  </div>
-
-  <script src="js/main.js?v=7"></script>
-
-  <!-- ─── PASSWORD GATE ─────────────────────────────────────────────────── -->
-  <div id="pw-gate">
-    <div class="pw-box">
-      <img src="assets/logo-icon.png" alt="Veru365" class="pw-logo" />
-      <h2>Veru365</h2>
-      <p>Enter password to continue</p>
-      <form id="pw-form">
-        <input type="password" id="pw-input" placeholder="Password" autocomplete="off" />
-        <button type="submit">Enter →</button>
-      </form>
-      <p id="pw-error" class="pw-error hidden">Incorrect password</p>
-    </div>
-  </div>
-
-  <script>
-    (function () {
-      const gate = document.getElementById('pw-gate');
-      if (sessionStorage.getItem('v365_auth') === '1') { gate.remove(); return; }
-      document.body.style.overflow = 'hidden';
-      document.getElementById('pw-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-        if (document.getElementById('pw-input').value === 'insomniac2026') {
-          sessionStorage.setItem('v365_auth', '1');
-          gate.style.opacity = '0';
-          setTimeout(() => { gate.remove(); document.body.style.overflow = ''; }, 300);
-        } else {
-          document.getElementById('pw-error').classList.remove('hidden');
-          document.getElementById('pw-input').value = '';
-          document.getElementById('pw-input').focus();
-        }
-      });
-    })();
-  </script>
+  <img src="assets/logo-combined.png" alt="Veru365™" class="logo" />
+  <footer>© 2025 Veru365™. All rights reserved.</footer>
 </body>
 </html>
