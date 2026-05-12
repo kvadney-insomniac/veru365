@@ -36,10 +36,21 @@
       color: #9aa0b8;
       letter-spacing: 0.03em;
     }
+    #web {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body > *:not(#web) { position: relative; z-index: 1; }
   </style>
 </head>
 <body>
+  <canvas id="web"></canvas>
   <img src="assets/logo-combined.png" alt="Veru365™" class="logo" />
   <footer>© 2026 Veru365™. All rights reserved.</footer>
+  <script src="js/main.js"></script>
 </body>
 </html>
